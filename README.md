@@ -49,6 +49,13 @@ Install in read-to-go-mode with:
 pip install git+https://github.com/CoronaWhy/task-vt.git
 ```
 
+Now, code that's in the `src/coronawhy_vt` folder can be imported like this:
+
+```python
+from coronawhy_vt import version
+print(version.get_version())
+```
+
 ### Build the docs
 
 After installation, do the following to build and open the docs (sorry windows users,
