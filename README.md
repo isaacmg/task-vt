@@ -28,3 +28,45 @@ We have divided the work needed to create these deliverables into subtasks and b
 To get started working with this repo please see the [Getting Started Guide](https://github.com/CoronaWhy/task-vt/wiki/Getting-Started-Guide). Also check out if any [Existing Resources](https://github.com/CoronaWhy/task-vt/wiki/Interesting-External-Resources) might be helpful to get you started.
 
 Best of luck and thank you for all your hard work in this fight.
+
+### Installation of this code
+
+Install in development mode with:
+
+```sh
+git clone https://github.com/CoronaWhy/task-vt.git
+cd task-vt
+pip install -e .[docs]
+```
+
+- `-e` installs in editable mode
+- `.` says install the current directory
+- `[docs]` says install the extra requirements for building the docs
+
+Install in read-to-go-mode with:
+
+```sh
+pip install git+https://github.com/CoronaWhy/task-vt.git
+```
+
+Now, code that's in the `src/coronawhy_vt` folder can be imported like this:
+
+```python
+from coronawhy_vt import version
+print(version.get_version())
+```
+
+### Build the docs
+
+After installation, do the following to build and open the docs (sorry windows users,
+you're out of luck):
+
+```sh
+cd docs/
+make html
+open build/html/index.html
+```
+
+Note: ReadTheDocs will take care of auto-building the docs on every commit to master,
+so you don't have to worry about this. Also, because of this, don't commit the
+build artifacts to GitHub!
