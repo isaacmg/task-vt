@@ -69,7 +69,11 @@ class RelationExtractModel(object):
         )
         return np.array(enc_di['input_ids'])
     
-    def predict(self, texts:List[str], threshold=.4)->bool:
+    def predict(self, texts:List[str], threshold=.4)->List[bool]:
+        """
+        Function that takes a list of strings and returns 
+        a boolean value for each that string contains a drug treatment pair.
+        """
         output = self.regular_encode(texts)
         model_output = self.re_model.predict(output)
         return map(lambda x: x>threshold, model_output)
