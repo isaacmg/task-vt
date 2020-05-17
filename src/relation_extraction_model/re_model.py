@@ -39,7 +39,7 @@ class RelationExtractModel(object):
 
     def save_model(self, model, pickle_dir:str, transformer_dir:str):
         """
-        Special function to load a keras model that uses a transformer layer
+        Special function to save a keras model that uses a transformer layer
         """
         transformer = self.model.layers[1]
         transformer.save_pretrained(transformer_dir)
