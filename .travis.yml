@@ -4,10 +4,13 @@ install:
   - pip install -r requirements.txt
   - pip install pytest==5.2.0
   - python -m spacy download en_core_web_sm
+  - wget -O src/relation_extraction_model/transformer_dir/tf_model.h5 https://storage.googleapis.com/coronaviruspublicdata/re_final_best/new/tf_model.h5
+  - wget -O src/relation_extraction_model/transformer_dir/config.json https://storage.googleapis.com/coronaviruspublicdata/re_final_best/new/config.json
 
 # commands to run tests
 script:
   - python -m pytest utils
+  - python src/relation_extraction_model/model_tests.py
 #  - python -m pytest covid_mechanism_kg
 #  - python -m pytest drug_treatment_extraction
 #  - python -m pytest main_pipeline
