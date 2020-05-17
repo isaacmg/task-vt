@@ -11,15 +11,17 @@ import transformers
 from transformers import TFAutoModel, AutoTokenizer
 from tqdm.notebook import tqdm
 from tokenizers import Tokenizer, models, pre_tokenizers, decoders, processors
+from typing import List
 
 class RelationExtractModel(object):
     def __init__(self, transformer_dir:str, pickle_path:str):
-        self.model = self.load_model(transformer_dir, pickle_path, 512)
+        self.re_model = self.load_model(transformer_dir, pickle_path, 512)
+        self.tokenizer = AutoTokenizer.from_pretrained("allenai/biomed_roberta_base")
 
     @staticmethod
     def build_model(transformer:TFAutoModel, max_len:int=256):
         """
-        Constructs a BERT model  
+        Constructs a BERT model. See link below for more
         https://www.kaggle.com/xhlulu/jigsaw-tpu-distilbert-with-huggingface-and-keras
         """
         input_ids = Input(shape=(max_len, ), dtype=tf.int32)
@@ -41,9 +43,9 @@ class RelationExtractModel(object):
         """
         Special function to save a keras model that uses a transformer layer
         """
-        transformer = self.model.layers[1]
+        transformer = self.re_model.layers[1]
         transformer.save_pretrained(transformer_dir)
-        sigmoid = self.model.get_layer('sigmoid').get_weights()
+        sigmoid = self.re_model.get_layer('sigmoid').get_weights()
         pickle.dump(sigmoid, open(pickle_dir, 'wb'))
 
     def load_model(self, pickle_path:str, transformer_dir:str='transformer', max_len=512):
@@ -56,3 +58,18 @@ class RelationExtractModel(object):
         model.get_layer('sigmoid').set_weights(sigmoid)
         
         return model
+
+    def regular_encode(self, texts, maxlen=512):
+        enc_di = self.tokenizer.batch_encode_plus(
+            texts, 
+            return_attention_masks=False, 
+            return_token_type_ids=False,
+            pad_to_max_length=True,
+            max_length=maxlen
+        )
+        return np.array(enc_di['input_ids'])
+    
+    def predict(self, texts:List[str], threshold=.4)->bool:
+        output = self.regular_encode(texts)
+        model_output = self.re_model.predict(output)
+        return map(lambda x: x>threshold, model_output)
