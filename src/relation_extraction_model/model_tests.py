@@ -2,6 +2,7 @@ import unittest
 from re_model import RelationExtractModel
 from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent / "transformer_dir"
+print(str(BASE_DIR))
 
 class TestCoreMethods(unittest.TestCase):
     def setUp(self):

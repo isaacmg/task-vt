@@ -15,7 +15,7 @@ from typing import List
 
 class RelationExtractModel(object):
     def __init__(self, transformer_dir:str, pickle_path:str):
-        self.re_model = self.load_model(transformer_dir, pickle_path, 512)
+        self.re_model = self.load_model(pickle_path, transformer_dir, 512)
         self.tokenizer = AutoTokenizer.from_pretrained("allenai/biomed_roberta_base")
 
     @staticmethod
