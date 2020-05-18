@@ -76,4 +76,4 @@ class RelationExtractModel(object):
         """
         output = self.regular_encode(texts)
         model_output = self.re_model.predict(output)
-        return map(lambda x: x>threshold, model_output)
+        return list(map(lambda x: x>threshold, model_output))
