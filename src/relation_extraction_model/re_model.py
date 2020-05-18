@@ -59,7 +59,8 @@ class RelationExtractModel(object):
         
         return model
 
-    def regular_encode(self, texts, maxlen=512):
+    def regular_encode(self, texts:List[str], maxlen=512)->np.array:
+        """"""
         enc_di = self.tokenizer.batch_encode_plus(
             texts, 
             return_attention_masks=False, 
@@ -74,6 +75,9 @@ class RelationExtractModel(object):
         Function that takes a list of strings and returns 
         a boolean value for each that string contains a drug treatment pair.
         """
+        if type(texts) == str:
+            new_list = [] 
+            texts = new_list.append(texts)
         output = self.regular_encode(texts)
         model_output = self.re_model.predict(output)
         return list(map(lambda x: x>threshold, model_output))
