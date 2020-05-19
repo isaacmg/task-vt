@@ -77,7 +77,8 @@ class RelationExtractModel(object):
         """
         if type(texts) == str:
             new_list = [] 
-            texts = new_list.append(texts)
+            new_list.append(texts)
+            texts = new_list
         output = self.regular_encode(texts)
         model_output = self.re_model.predict(output)
         return list(map(lambda x: x>threshold, model_output))
